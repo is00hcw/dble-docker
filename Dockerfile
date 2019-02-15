@@ -3,8 +3,11 @@
 FROM java:8
 
 
-RUN version=$(curl "https://github.com/actiontech/dble/releases/latest"|awk -F "/" '{print $8}') && \
-    wget -P /opt https://github.com/actiontech/dble/releases/download/$version%2Ftag/actiontech-dble-$version.tar.gz && \
+# RUN version=$(curl "https://github.com/actiontech/dble/releases/latest"|awk -F "/" '{print $8}') && \
+#     wget -P /opt https://github.com/actiontech/dble/releases/download/$version%2Ftag/actiontech-dble-$version.tar.gz && \
+#     tar zxvf /opt/actiontech-dble-$version.tar.gz -C /opt
+
+RUN wget -P /opt http://119.29.169.221:10001/actiontech-dble-2.18.12.0.tar.gz && \
     tar zxvf /opt/actiontech-dble-$version.tar.gz -C /opt
 
 # RUN wget https://raw.githubusercontent.com/actiontech/dble/master/docker-images/quick-start/schema.xml -P /opt/dble/conf/ && \
