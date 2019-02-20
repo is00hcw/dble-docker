@@ -21,6 +21,7 @@ RUN wget -P /opt http://119.29.169.221:10001/download/actiontech-dble-2.18.12.0.
 ADD ./quick-start/schema.xml  /opt/dble/conf/
 ADD ./quick-start/server.xml  /opt/dble/conf/
 ADD ./quick-start/rule.xml  /opt/dble/conf/
+ADD ./dble_start.sh  /opt/dble/bin
 
 RUN chmod 777 /opt/dble/bin/* && \
     rm -f /opt/actiontech-dble-$version.tar.gz
@@ -30,6 +31,6 @@ EXPOSE 8066 9066
 VOLUME /opt/dble
 
 # CMD ["/opt/dble/bin/docker_init_start.sh"]
-ADD ./dble_start.sh  /opt/dble/bin
+
 
 CMD ["/opt/dble/bin/dble_start.sh"]
