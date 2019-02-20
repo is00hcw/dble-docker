@@ -30,6 +30,6 @@ EXPOSE 8066 9066
 VOLUME /opt/dble
 
 # CMD ["/opt/dble/bin/docker_init_start.sh"]
+ADD ./dble_start.sh  /opt/dble/bin
 
-
-CMD ["/opt/dble/bin/startup_nowrap.sh"]
+CMD ["/opt/dble/bin/dble_start.sh"]
