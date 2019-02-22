@@ -26,6 +26,9 @@ ADD ./wait-for-it.sh  /opt/dble/bin
 
 RUN chmod 777 /opt/dble/bin/* && \
     rm -f /opt/actiontech-dble-$version.tar.gz
+    
+RUN apt-get update
+RUN apt-get install vim net-tools -y
 
 EXPOSE 8066 9066    
 
