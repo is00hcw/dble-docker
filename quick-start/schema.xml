@@ -1,48 +1,105 @@
 <?xml version="1.0"?>
-<!--
-  ~ Copyright (C) 2016-2019 ActionTech.
-  ~ License: http://www.gnu.org/licenses/gpl.html GPL version 2 or higher.
-  -->
-
 <!DOCTYPE dble:schema SYSTEM "schema.dtd">
 <dble:schema xmlns:dble="http://dble.cloud/">
 
-    <schema name="testdb">
-        <table name="travelrecord" dataNode="dn1,dn2" rule="sharding-by-hash2"/>
+    <schema name="TESTDB">
+        <!-- auto sharding by id (long) -->
+        <!-- <table name="travelrecord" dataNode="dn1,dn2" rule="sharding-by-hash2"/> -->
+
         <!-- global table is auto cloned to all defined data nodes ,so can join
             with any table whose sharding node is in the same data node -->
-        <table name="company" primaryKey="ID" type="global" dataNode="dn1,dn2,dn3,dn4"/>
-        <table name="goods" primaryKey="ID" type="global" dataNode="dn1,dn2"/>
-        <!-- random sharding using mod sharind rule -->
-        <table name="hotnews" primaryKey="ID" autoIncrement="true" dataNode="dn1,dn2,dn3,dn4"
-               rule="sharding-by-mod"/>
-        <table name="customer" primaryKey="ID" dataNode="dn1,dn2"
-               rule="sharding-by-mod2">
-            <childTable name="orders" primaryKey="ID" joinKey="customer_id"
-                        parentKey="id">
-                <childTable name="order_items" joinKey="order_id"
-                            parentKey="id"/>
+
+        <!-- 全局表-->    
+        <table name="inv_trans_type" primaryKey="id" type="global" dataNode="stock_a,stock_b,stock_c"/>
+
+        <!--分片表-->
+        <table name="inv_check_stock_detail" primaryKey="id"  dataNode="stock_b,stock_c" rule="sharding-by-mod2"/>
+        <table name="inv_check_stock_head" primaryKey="id"  dataNode="stock_b,stock_c" rule="sharding-by-mod2"/>
+
+
+        
+        <!-- <table name="inv_check_stock_head" primaryKey="id" dataNode="stock_b,stock_c" rule="sharding-by-mod2">
+            <childTable name="inv_check_stock_detail" primaryKey="id" joinKey="head_id" parentKey="id"/>
+        </table> -->
+
+        <!-- 非分片表-->
+        <table name="bas_cat_class_depot_rel" dataNode="stock_a"/>
+        <table name="dtx_undo_log" dataNode="stock_a"/>
+        <table name="inv_allocation_stock" dataNode="stock_a"/>
+        <table name="inv_allocation_stock_his" dataNode="stock_a"/>
+        <table name="inv_check_input_detail" dataNode="stock_a"/>
+        <table name="inv_check_input_head" dataNode="stock_a"/>
+        <table name="inv_check_stock_correct_detail" dataNode="stock_a"/>
+        <table name="inv_daily_balance_status" dataNode="stock_a"/>
+        <table name="inv_depot" dataNode="stock_a"/>
+        <table name="inv_depot_balance_log" dataNode="stock_a"/>
+        <table name="inv_depot_goods_type" dataNode="stock_a"/>
+        <table name="inv_depot_period" dataNode="stock_a"/>
+        <table name="inv_move_audit_record" dataNode="stock_a"/>
+        <table name="inv_move_modif_log" dataNode="stock_a"/>
+        <table name="inv_move_order_detail" dataNode="stock_a"/>
+        <table name="inv_move_order_head" dataNode="stock_a"/>
+        <table name="inv_onway_stock" dataNode="stock_a"/>
+        <table name="inv_onway_stock_his" dataNode="stock_a"/>
+        <table name="inv_pack_audit_record" dataNode="stock_a"/>
+        <table name="inv_pack_in_detail" dataNode="stock_a"/>
+        <table name="inv_pack_modif_log" dataNode="stock_a"/>
+        <table name="inv_pack_order_head" dataNode="stock_a"/>
+        <table name="inv_pack_out_detail" dataNode="stock_a"/>
+        <table name="inv_stock_daily" dataNode="stock_a"/>
+        <table name="inv_stock_daily_rel" dataNode="stock_a"/>
+        <table name="inv_stock_daily_summary" dataNode="stock_a"/>
+        <table name="inv_stock_daily_trees" dataNode="stock_a"/>
+        <table name="inv_stock_daily_trees_rel" dataNode="stock_a"/>
+        <table name="inv_stock_detail" dataNode="stock_a"/>
+        <table name="inv_stock_detail_trees" dataNode="stock_a"/>
+        <table name="inv_stock_mon_detail" dataNode="stock_a"/>
+        <table name="inv_stock_mon_detail_rel" dataNode="stock_a"/>
+        <table name="inv_stock_mon_detail_trees" dataNode="stock_a"/>
+        <table name="inv_stock_mon_detail_trees_rel" dataNode="stock_a"/>
+        <table name="inv_stock_roll_summary" dataNode="stock_a"/>
+        <table name="inv_trans_audit_record" dataNode="stock_a"/>
+        <table name="inv_trans_change_log" dataNode="stock_a"/>
+        <table name="inv_trans_detail" dataNode="stock_a"/>
+        <table name="inv_trans_detail_bill" dataNode="stock_a"/>
+        <table name="inv_trans_head" dataNode="stock_a"/>
+        <table name="inv_work_audit_record" dataNode="stock_a"/>
+        <table name="inv_work_modif_log" dataNode="stock_a"/>
+        <table name="inv_work_order_detail" dataNode="stock_a"/>
+        <table name="inv_work_order_head" dataNode="stock_a"/>
+        <table name="mig_bas_goods" dataNode="stock_a"/>
+        <table name="sto2inv_inv_back_detail" dataNode="stock_a"/>
+        <table name="sto2inv_inv_back_head" dataNode="stock_a"/>
+        <table name="sto2inv_inv_stock_daily" dataNode="stock_a"/>
+        <table name="sto2inv_inv_stock_roll_summary" dataNode="stock_a"/>
+        <table name="sto2inv_inv_trans_detail" dataNode="stock_a"/>
+        <table name="sto2inv_inv_trans_detail_adj" dataNode="stock_a"/>
+        <table name="sto2inv_inv_trans_head_adj" dataNode="stock_a"/>
+
+
+
+        <!-- <table name="customer" primaryKey="ID" dataNode="dn1,dn2" rule="sharding-by-mod2">
+            <childTable name="orders" primaryKey="ID" joinKey="customer_id" parentKey="id">
+                <childTable name="order_items" joinKey="order_id" parentKey="id"/>
             </childTable>
-            <childTable name="customer_addr" primaryKey="ID" joinKey="customer_id"
-                        parentKey="id"/>
-        </table>
+
+            <childTable name="customer_addr" primaryKey="ID" joinKey="customer_id" parentKey="id"/>
+        </table> -->
     </schema>
-
-
-    <dataNode name="dn1" dataHost="backend-mysql1" database="db1"/>
-    <dataNode name="dn2" dataHost="backend-mysql1" database="db2"/>
-    <dataNode name="dn3" dataHost="backend-mysql2" database="db3"/>
-    <dataNode name="dn4" dataHost="backend-mysql2" database="db4"/>
-    <dataHost name="backend-mysql1" maxCon="300" minCon="10" balance="0" switchType="1" slaveThreshold="100">
-        <heartbeat>show slave status</heartbeat>
-        <writeHost host="hostM1" url="172.18.0.2:3306" user="root"
-                   password="123456">
+    <!-- <dataNode name="dn1$0-743" dataHost="localhost1" database="db$0-743"
+        /> -->
+    <dataNode name="stock_a" dataHost="localhost1" database="stock_a"/>
+    <dataNode name="stock_b" dataHost="localhost1" database="stock_b"/>
+    <dataNode name="stock_c" dataHost="localhost1" database="stock_c"/>
+    <dataHost name="localhost1" maxCon="1000" minCon="10" balance="0" switchType="1" slaveThreshold="100">
+        <heartbeat>SELECT USER();</heartbeat>
+        <!-- can have multi write hosts -->
+        <writeHost host="hostM1" url="127.0.0.1:3306" user="stockuser"
+                   password="1111">
+            <!-- can have multi read hosts -->
+            <!-- <readHost host="hostS2" url="xxx:15509" user="root" password="xxx"/> -->
         </writeHost>
-    </dataHost>
-    <dataHost name="backend-mysql2" maxCon="300" minCon="10" balance="0" switchType="1" slaveThreshold="100">
-        <heartbeat>show slave status</heartbeat>
-        <writeHost host="hostM1" url="172.18.0.3:3306" user="root"
-                   password="123456">
-        </writeHost>
+
     </dataHost>
 </dble:schema>
+    
