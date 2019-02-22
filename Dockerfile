@@ -21,7 +21,8 @@ RUN wget -P /opt http://119.29.169.221:10001/download/actiontech-dble-2.18.12.0.
 ADD ./quick-start/schema.xml  /opt/dble/conf/
 ADD ./quick-start/server.xml  /opt/dble/conf/
 ADD ./quick-start/rule.xml  /opt/dble/conf/
-ADD ./dble_start.sh  /opt/dble/bin
+ADD ./dble_start.sh   /opt/dble/bin
+ADD ./wait-for-it.sh  /opt/dble/bin
 
 RUN chmod 777 /opt/dble/bin/* && \
     rm -f /opt/actiontech-dble-$version.tar.gz
